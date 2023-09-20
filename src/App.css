@@ -1,38 +1,189 @@
-.App {
-  text-align: center;
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container{
+  width: 100vw;
+  height: 100vh;
+}
+.bgimg{
+  position: absolute;
+  z-index: -1;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.cc{
+  width: 100vw;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr 1fr; 
+
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.frontcc{
+  background: url("./images/cardFront.png") no-repeat center/cover;
+  width: 447px;
+  height: 246px;
+  flex-shrink: 0;
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+
+.backcc{
+  position: relative;
+  background: url("./images/cardBack.png") no-repeat center/cover;
+  width: 447px;
+  height: 246px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  margin-left: 5rem;
+}
+
+.logo{
+  display: flex;
   align-items: center;
+  gap: 10px;
+  padding: 20px;
+}
+
+h2{
+  margin: 30px 0px 30px 30px;
+  color: #FFF;
+  height: 27px;
+flex-shrink: 0;
+font-family: Inter;
+font-size: 26px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 4.68px;
+}
+
+ul{
+  display: flex;
+  justify-content: space-between;
+  margin: 30px;
+  list-style-type: none;
+  color: #FFF;
+font-family: Roboto;
+font-size: 13px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+letter-spacing: 2.47px;
+}
+
+.cvv{
+  position: absolute;
+  right: 3.5rem;
+  top: 7rem;
+  color: #FFF;
+font-family: Roboto;
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+letter-spacing: 3.29px;
+}
+
+.cards{
+  display: grid;
+  grid-template-columns: 1;
+  gap: 2rem;
+  margin: 4rem 0rem 0rem 5rem; 
+  
+}
+
+form label{
+  display: block;
+  color: #404040;
+font-family: Roboto;
+font-size: 12px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+letter-spacing: 1.86px;
+margin-bottom: .5rem;
+}
+
+form input{
+  border-radius: 6px;
+border: 1px solid rgba(0, 0, 0, 0.13);
+background: #FFF;
+width: 382px;
+height: 44px;
+flex-shrink: 0;
+color: #383838;
+font-family: Inter;
+font-size: 15px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+letter-spacing: 1.875px;
+padding-left: 2rem;
+}
+
+form input::placeholder{
+  flex-shrink: 0;
+color: #BBB9BC;
+font-family: Inter;
+font-size: 15px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+letter-spacing: 1.875px;
+}
+
+.form-name{
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+form .exp input{
+  width: 78px;
+  height: 44px;
+  padding-left: 1rem;
+}
+
+.month{
+  margin-right: 1rem;
+}
+
+.bottom{
+  display: flex;
+  gap: 1.5rem
+}
+
+.forcvc{
+  width: 189px;
+height: 44px;
+flex-shrink: 0;
+}
+
+form button{
+  width: 392px;
+height: 53px;
+flex-shrink: 0;
+border-radius: 6px;
+border: 1px solid #000;
+background: #220930;
+box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+color: #FFF;
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+letter-spacing: 0.16px;
 }
