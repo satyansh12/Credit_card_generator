@@ -5,13 +5,17 @@
   
 }
 
+
 .container{
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 .bgimg{
   position: absolute;
   z-index: -1;
+  width: 400px;
+height: 903px;
 }
 
 .cc{

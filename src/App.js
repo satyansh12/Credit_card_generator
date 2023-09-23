@@ -14,6 +14,7 @@ const App = () => {
   const [cvc, setCvc] = useState('');
   const [nameError, setNameError] = useState('');
   const [cardNumberError, setCardNumberError] = useState('');
+  const [cvcError, setCvcError] = useState(''); // Add CVC error state
   const [formError, setFormError] = useState('');
 
   const errorStyle = {
@@ -31,6 +32,7 @@ const App = () => {
     const enteredName = e.target.cardholder_name.value;
     const capitalizedName = enteredName.toUpperCase();
     const enteredCardNumber = e.target.card_number.value;
+    const enteredCvc = e.target.cvc.value; // Get CVC input value
 
     if (!enteredName.trim()) {
       setNameError('Cardholder name required');
@@ -38,7 +40,7 @@ const App = () => {
     }
 
     if (!enteredCardNumber.trim()) {
-      setCardNumberError('Cardnumber required');
+      setCardNumberError('Card number required');
       return;
     }
 
@@ -47,29 +49,31 @@ const App = () => {
       return;
     }
 
-    // Validate card number length
-    if (enteredCardNumber.length !== 16) {
-      setCardNumberError('Card number should be 16 digits');
+    if (enteredCardNumber.length !== 16 || !/^\d+$/.test(enteredCardNumber)) {
+      setCardNumberError('Invalid card number');
       return;
     }
 
-    // Validate card number format (all digits)
-    if (!/^\d+$/.test(enteredCardNumber)) {
-      setCardNumberError('Card number should only contain numbers');
+    // Validate CVC input
+    if (!enteredCvc.trim()) {
+      setCvcError('CVC required');
       return;
     }
 
-    // Add spaces every 4 digits
-    const formattedCardNumber = enteredCardNumber.replace(/(\d{4})/g, '$1 ');
+    if (!/^\d+$/.test(enteredCvc) || enteredCvc.length !== 3) {
+      setCvcError('CVC must be numeric');
+      return;
+    }
 
     setName(capitalizedName);
-    setCardNumber(formattedCardNumber);
+    setCardNumber(enteredCardNumber);
     setExpiryMonth(e.target.expiry_month.value);
     setExpiryYear(e.target.expiry_year.value);
-    setCvc(e.target.cvc.value);
+    setCvc(enteredCvc);
 
     setNameError('');
     setCardNumberError('');
+    setCvcError(''); // Clear CVC error
     setFormError('');
 
     toast.success('Payment confirmed successfully!', {
@@ -128,7 +132,6 @@ const App = () => {
                   id="card_number"
                   placeholder="e.g. 1234 5678 9123 0000"
                   maxLength={16}
-                  
                 />
                 {cardNumberError && <p style={errorStyle} className="error-message">{cardNumberError}</p>}
               </div>
@@ -162,8 +165,9 @@ const App = () => {
                     id="cvc"
                     placeholder="e.g. 123"
                     maxLength={3}
-                    required
                   />
+                  {/* Display CVC error message */}
+                  {cvcError && <p style={errorStyle} className="error-message">{cvcError}</p>}
                 </div>
               </article>
               {formError && <p style={errorStyle} className="error-message">{formError}</p>}
