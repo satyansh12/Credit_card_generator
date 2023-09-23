@@ -7,37 +7,74 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
-  const [name, setName] = useState(''); // Set default name
+  const [name, setName] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiryMonth, setExpiryMonth] = useState('');
   const [expiryYear, setExpiryYear] = useState('');
   const [cvc, setCvc] = useState('');
   const [nameError, setNameError] = useState('');
+  const [cardNumberError, setCardNumberError] = useState('');
+  const [formError, setFormError] = useState('');
+
+  const errorStyle = {
+    color: '#F81212',
+    fontFamily: 'Inter',
+    fontSize: '12px',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    lineHeight: 'normal',
+    margin: '10px'
+  };
 
   const handleConfirm = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     const enteredName = e.target.cardholder_name.value;
     const capitalizedName = enteredName.toUpperCase();
-    
-    if (/[^a-zA-Z\s]/.test(enteredName)) {
-      // Display an error message if the name contains non-alphabet characters
-      setNameError('Name should only contain alphabetic characters and spaces');
-      return; // Stop further processing
+    const enteredCardNumber = e.target.card_number.value;
+
+    if (!enteredName.trim()) {
+      setNameError('Cardholder name required');
+      return;
     }
 
-    // Clear any previous error message
-    setNameError('');
+    if (!enteredCardNumber.trim()) {
+      setCardNumberError('Cardnumber required');
+      return;
+    }
+
+    if (/[^a-zA-Z\s]/.test(enteredName)) {
+      setNameError('Name should only contain alphabetic characters and spaces');
+      return;
+    }
+
+    // Validate card number length
+    if (enteredCardNumber.length !== 16) {
+      setCardNumberError('Card number should be 16 digits');
+      return;
+    }
+
+    // Validate card number format (all digits)
+    if (!/^\d+$/.test(enteredCardNumber)) {
+      setCardNumberError('Card number should only contain numbers');
+      return;
+    }
+
+    // Add spaces every 4 digits
+    const formattedCardNumber = enteredCardNumber.replace(/(\d{4})/g, '$1 ');
 
     setName(capitalizedName);
-    setCardNumber(e.target.card_number.value);
+    setCardNumber(formattedCardNumber);
     setExpiryMonth(e.target.expiry_month.value);
     setExpiryYear(e.target.expiry_year.value);
     setCvc(e.target.cvc.value);
 
-    // Show success toast
+    setNameError('');
+    setCardNumberError('');
+    setFormError('');
+
     toast.success('Payment confirmed successfully!', {
       position: 'top-right',
-      autoClose: 3000, // Auto close the toast after 3 seconds
+      autoClose: 3000,
     });
   };
 
@@ -80,9 +117,8 @@ const App = () => {
                   name="cardholder_name"
                   id="cardholder_name"
                   placeholder="e.g. Jane Appleseed"
-                  required
                 />
-                {nameError && <p className="error-message">{nameError}</p>}
+                {nameError && <p style={errorStyle} className="error-message">{nameError}</p>}
               </div>
               <div>
                 <label htmlFor="card_number">CARD NUMBER</label>
@@ -91,16 +127,17 @@ const App = () => {
                   name="card_number"
                   id="card_number"
                   placeholder="e.g. 1234 5678 9123 0000"
-                  maxLength={19}
-                  required
+                  maxLength={16}
+                  
                 />
+                {cardNumberError && <p style={errorStyle} className="error-message">{cardNumberError}</p>}
               </div>
               <article className="bottom">
                 <div className="exp">
                   <label htmlFor="expiry_month">EXP. DATE (MM/YY)</label>
                   <input
                     className="month"
-                    type="text"
+                    type="number"
                     name="expiry_month"
                     id="expiry_month"
                     placeholder="MM"
@@ -108,7 +145,7 @@ const App = () => {
                     required
                   />
                   <input
-                    type="text"
+                    type="number"
                     name="expiry_year"
                     id="expiry_year"
                     placeholder="YY"
@@ -129,12 +166,12 @@ const App = () => {
                   />
                 </div>
               </article>
+              {formError && <p style={errorStyle} className="error-message">{formError}</p>}
               <button type="submit">Confirm</button>
             </form>
           </div>
         </div>
       </section>
-      {/* Add this component for displaying toasts */}
       <ToastContainer />
     </div>
   );
